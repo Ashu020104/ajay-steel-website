@@ -1,10 +1,13 @@
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL || "file:./dev.db",
-});
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is required");
+}
+const adapter = new PrismaPg(new Pool({ connectionString }));
 const prisma = new PrismaClient({ adapter });
 
 const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || "admin@ajaysteel.local").toLowerCase().trim();
