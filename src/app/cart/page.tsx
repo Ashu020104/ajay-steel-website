@@ -61,16 +61,31 @@ export default function CartPage() {
                     {i.unitPaise > 0 ? formatINRFromPaise(i.unitPaise) : "Price on request"}
                   </div>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <label className="text-xs text-zinc-600 dark:text-zinc-400">
-                      Qty
-                      <input
-                        className="ml-2 w-20 rounded-lg border border-zinc-200 bg-white px-2 py-1 text-sm dark:border-zinc-800 dark:bg-zinc-900"
-                        type="number"
-                        min={1}
-                        value={i.quantity}
-                        onChange={(e) => setQuantity(i.productId, Number(e.target.value))}
-                      />
-                    </label>
+                    <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                      <span className="font-semibold">Qty</span>
+                      <div className="inline-flex items-center overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+                        <button
+                          type="button"
+                          aria-label="Decrease quantity"
+                          onClick={() => setQuantity(i.productId, Math.max(1, i.quantity - 1))}
+                          className="h-9 w-9 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 disabled:opacity-50 dark:text-zinc-100 dark:hover:bg-zinc-800"
+                          disabled={i.quantity <= 1}
+                        >
+                          −
+                        </button>
+                        <div className="min-w-10 px-3 text-center text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                          {i.quantity}
+                        </div>
+                        <button
+                          type="button"
+                          aria-label="Increase quantity"
+                          onClick={() => setQuantity(i.productId, i.quantity + 1)}
+                          className="h-9 w-9 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:text-zinc-100 dark:hover:bg-zinc-800"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
                     <button
                       type="button"
                       onClick={() => removeItem(i.productId)}
