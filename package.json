@@ -5,14 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "prisma migrate deploy && npm run db:seed && npm run products:sync && next start",
+    "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "tsx scripts/seed.ts",
-    "products:sync": "tsx scripts/sync-products.ts"
+    "products:sync": "tsx scripts/sync-products.ts",
+    "deploy:setup": "prisma migrate deploy && npm run db:seed && npm run products:sync"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.7.0",
