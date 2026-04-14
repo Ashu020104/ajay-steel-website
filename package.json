@@ -13,7 +13,8 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:seed": "tsx scripts/seed.ts",
     "products:sync": "tsx scripts/sync-products.ts",
-    "deploy:setup": "prisma migrate deploy && npm run db:seed && npm run products:sync"
+    "deploy:setup": "prisma migrate deploy && npm run db:seed && npm run products:sync",
+    "render-build": "npm run db:generate && npm run deploy:setup && npm run build"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.7.0",
