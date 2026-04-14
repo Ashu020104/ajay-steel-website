@@ -11,9 +11,10 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
+    "db:push": "prisma db push",
     "db:seed": "tsx scripts/seed.ts",
     "products:sync": "tsx scripts/sync-products.ts",
-    "deploy:setup": "prisma migrate deploy && npm run db:seed && npm run products:sync",
+    "deploy:setup": "npm run db:push && npm run db:seed && npm run products:sync",
     "render-build": "npm run db:generate && npm run deploy:setup && npm run build"
   },
   "dependencies": {
