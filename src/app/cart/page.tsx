@@ -73,9 +73,19 @@ export default function CartPage() {
                         >
                           −
                         </button>
-                        <div className="min-w-10 px-3 text-center text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                          {i.quantity}
-                        </div>
+                        <input
+                          aria-label="Quantity"
+                          inputMode="numeric"
+                          className="h-9 w-14 bg-transparent px-2 text-center text-sm font-semibold text-zinc-900 outline-none dark:text-zinc-100"
+                          type="number"
+                          min={1}
+                          value={i.quantity}
+                          onChange={(e) => {
+                            const n = Number(e.target.value);
+                            if (!Number.isFinite(n)) return;
+                            setQuantity(i.productId, Math.max(1, Math.floor(n)));
+                          }}
+                        />
                         <button
                           type="button"
                           aria-label="Increase quantity"
