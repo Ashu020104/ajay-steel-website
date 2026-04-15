@@ -11,7 +11,13 @@ export type ProductCardData = {
   inStock: boolean;
 };
 
-export function ProductCard({ product }: { product: ProductCardData }) {
+export function ProductCard({
+  product,
+  priority,
+}: {
+  product: ProductCardData;
+  priority?: boolean;
+}) {
   const price =
     product.pricePaise > 0 ? formatINRFromPaise(product.pricePaise) : "Price on request";
 
@@ -27,6 +33,10 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition group-hover:scale-[1.02]"
+          // Render Free can be slow at on-demand optimization.
+          // Our product images are local static files, so serve them directly.
+          unoptimized
+          priority={!!priority}
         />
       </div>
       <div className="space-y-1 p-4">

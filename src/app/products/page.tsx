@@ -20,7 +20,7 @@ export default async function ProductsPage() {
       </div>
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((p) => (
+        {products.map((p, idx) => (
           <ProductCard
             key={p.id}
             product={{
@@ -31,6 +31,7 @@ export default async function ProductsPage() {
               pricePaise: p.pricePaise,
               inStock: p.inStock,
             }}
+            priority={idx < 6}
           />
         ))}
       </div>
