@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
+import Image from "next/image";
 import { useCartStore } from "@/lib/cart-store";
 import { formatINRFromPaise } from "@/lib/money";
 
@@ -52,8 +53,14 @@ export default function CartPage() {
                 key={i.productId}
                 className="flex gap-4 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950"
               >
-                <div className="h-20 w-28 overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-900">
-                  <img src={i.imageUrl} alt={i.name} className="h-full w-full object-cover" />
+                <div className="relative h-20 w-28 overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-900">
+                  <Image
+                    src={i.imageUrl}
+                    alt={i.name}
+                    fill
+                    sizes="112px"
+                    className="object-cover"
+                  />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-sm font-semibold">{i.name}</div>

@@ -1,6 +1,7 @@
 export const business = {
   name: "Ajay Steel Corporation",
   tagline: "Iron and Steel Merchants • Traders (Since 1974)",
+  mapUrl: "https://maps.app.goo.gl/bzasMHPJB1qGCkrf9",
   address: {
     line1: "18, Kanta Stri Vikas Gruh Building",
     line2: "Near S.B.I. Bank, Dhebar Road",

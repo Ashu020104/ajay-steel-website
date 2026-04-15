@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { business } from "@/lib/business";
 import { CartButton } from "@/components/cart/CartButton";
+import { ActiveLink } from "@/components/nav/ActiveLink";
 
 export function SiteHeader() {
   return (
@@ -19,18 +20,12 @@ export function SiteHeader() {
         </div>
 
         <nav className="flex items-center gap-4">
-          <Link
-            href="/products"
-            className="text-sm font-medium text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
-          >
+          <ActiveLink href="/products">
             Products
-          </Link>
-          <Link
-            href="/contact"
-            className="text-sm font-medium text-zinc-700 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
-          >
+          </ActiveLink>
+          <ActiveLink href="/contact" exact>
             Contact
-          </Link>
+          </ActiveLink>
           <CartButton />
         </nav>
       </div>

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { formatINRFromPaise } from "@/lib/money";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
@@ -21,12 +22,14 @@ export default async function ProductPage({
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10">
       <div className="grid gap-8 lg:grid-cols-2">
         <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-          <div className="aspect-[4/3] w-full bg-zinc-100 dark:bg-zinc-900">
-            <img
+          <div className="relative aspect-[4/3] w-full bg-zinc-100 dark:bg-zinc-900">
+            <Image
               src={product.imageUrl}
               alt={product.name}
-              className="h-full w-full object-cover"
-              loading="lazy"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+              priority
             />
           </div>
         </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { formatINRFromPaise } from "@/lib/money";
 
 export type ProductCardData = {
@@ -19,13 +20,13 @@ export function ProductCard({ product }: { product: ProductCardData }) {
       href={`/products/${product.id}`}
       className="group overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-950"
     >
-      <div className="aspect-[4/3] w-full bg-zinc-100 dark:bg-zinc-900">
-        {/* Using <img> keeps setup simple for local & remote URLs */}
-        <img
+      <div className="relative aspect-[4/3] w-full bg-zinc-100 dark:bg-zinc-900">
+        <Image
           src={product.imageUrl}
           alt={product.name}
-          className="h-full w-full object-cover transition group-hover:scale-[1.02]"
-          loading="lazy"
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition group-hover:scale-[1.02]"
         />
       </div>
       <div className="space-y-1 p-4">
