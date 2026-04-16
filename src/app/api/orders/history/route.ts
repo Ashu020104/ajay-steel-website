@@ -7,6 +7,22 @@ const HistoryQuerySchema = z.object({
   email: z.string().email().optional(),
 });
 
+function normalizePhone(value: string) {
+  return value.replace(/\D/g, "");
+}
+
+function phoneMatches(inputPhone: string, orderPhone: string) {
+  const input = normalizePhone(inputPhone);
+  const order = normalizePhone(orderPhone);
+
+  if (!input || !order) return false;
+  if (input === order) return true;
+
+  const inputLast10 = input.slice(-10);
+  const orderLast10 = order.slice(-10);
+  return inputLast10.length >= 10 && inputLast10 === orderLast10;
+}
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -25,31 +41,30 @@ export async function GET(req: Request) {
       );
     }
 
-    const rawPhone = parsed.data.phone;
-    const normalizedPhone = rawPhone.replace(/\s/g, "");
-    const phoneCandidates = Array.from(new Set([rawPhone, normalizedPhone]));
-
-    // Keep this typing simple to avoid Prisma-generated type mismatches
-    // during Next.js production type-check.
-    const where: { phone: { in: string[] }; email?: string } = {
-      phone: { in: phoneCandidates },
-    };
-
-    if (parsed.data.email) {
-      // Only return orders that match the provided email.
-      where.email = parsed.data.email;
-    }
+    const requestedPhone = parsed.data.phone;
+    const requestedEmail = parsed.data.email?.trim().toLowerCase();
 
     const orders = await prisma.order.findMany({
-      where,
       orderBy: { createdAt: "desc" },
       include: { items: true },
-      take: 30,
+      take: 100,
+    });
+
+    const matchedOrders = orders.filter((order) => {
+      if (!phoneMatches(requestedPhone, order.phone)) return false;
+
+      // Phone number is the primary lookup key.
+      // If email is provided, we still allow phone matches when the saved order
+      // has no email or was placed with a different formatting/account.
+      if (!requestedEmail) return true;
+      if (!order.email) return true;
+
+      return order.email.trim().toLowerCase() === requestedEmail;
     });
 
     return NextResponse.json(
       {
-        orders: orders.map((o) => {
+        orders: matchedOrders.map((o) => {
           const subtotalPaise = o.items.reduce((sum, i) => sum + i.unitPaise * i.quantity, 0);
           return {
             id: o.id,
