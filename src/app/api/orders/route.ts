@@ -35,6 +35,7 @@ export async function POST(req: Request) {
     }
 
     const { customer, items } = parsed.data;
+    const phone = customer.phone.replace(/\s/g, "");
     const uniqueIds = Array.from(new Set(items.map((i) => i.productId)));
     const products = await prisma.product.findMany({
       where: { id: { in: uniqueIds } },
@@ -50,7 +51,7 @@ export async function POST(req: Request) {
       const created = await tx.order.create({
         data: {
           customerName: customer.customerName,
-          phone: customer.phone,
+          phone,
           email: customer.email ? customer.email : null,
           addressLine1: customer.addressLine1,
           addressLine2: customer.addressLine2 ? customer.addressLine2 : null,

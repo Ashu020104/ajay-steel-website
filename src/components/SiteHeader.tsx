@@ -23,6 +23,9 @@ export function SiteHeader() {
           <ActiveLink href="/products">
             Products
           </ActiveLink>
+          <ActiveLink href="/orders" exact>
+            Orders
+          </ActiveLink>
           <ActiveLink href="/contact" exact>
             Contact
           </ActiveLink>
